@@ -19,6 +19,9 @@ const NuevaCitaModal = ({ modalVisible, setModalVisible, handleGuardarCita }) =>
       id: Date.now(),
       paciente: paciente,
       propietario: propietario,
+      email: email,
+      telefono: telefono,
+      sintomas: sintomas
     };
 
     handleGuardarCita(nuevoPaciente);

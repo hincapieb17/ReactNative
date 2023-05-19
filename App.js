@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, Pressable, Image, ScrollView  } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, Pressable, Image, ScrollView, Alert  } from 'react-native';
 import NuevaCitaModal from './componentes/NuevaCita';
 import Paciente from './componentes/Paciente';
+import EditarCita from './componentes/EditarCita';
 
 function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const [pacientes, setPacientes] = useState([]);
+  const [modalEditar, setModalEditar] = useState(false);
+  const [editar, setEditar] = useState([])
 
   const handlePressNuevaCita = () => {
     setModalVisible(true);
@@ -21,9 +24,18 @@ function App() {
     setPacientes(updatedPacientes);
   };
 
-  const handleEditarCita = (pacienteEditado) => {
-    // Aquí puedes implementar la lógica para editar la cita
-    console.log('Editar cita', pacienteEditado);
+  const handleGuardarEditado = (pacienteEditado)=>{
+    const indice = pacientes.findIndex(paciente => paciente.id === pacienteEditado.id);
+    const nuevosPacientes = [...pacientes];
+    nuevosPacientes[indice]= pacienteEditado;
+    setPacientes(nuevosPacientes);
+    setModalEditar(false);
+    setEditar([]);
+  }
+
+  const handleEditarCita = (pacienteParaEditar) => {
+    setEditar(pacienteParaEditar); 
+    setModalEditar(true);
   };
 
   return (
@@ -53,6 +65,15 @@ function App() {
         handleEditarCita={handleEditarCita}
          />
       ))}
+
+      <EditarCita
+        modalEditar={modalEditar}
+        setModalEditar={setModalEditar}
+        editar={editar}
+        handleGuardarEditado={handleGuardarEditado}
+      />
+
+      
     </ScrollView>
     </SafeAreaView>
   );
